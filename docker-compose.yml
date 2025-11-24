@@ -1,0 +1,23 @@
+services:
+  redis_server:
+    image: redis:8.4.0-alpine
+
+    command: redis-server /usr/local/etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
+
+    ports:
+      - "127.0.0.1:6379:6379"
+
+    volumes:
+
+      # Montar volumen de datos "HOST:CONTAINER"
+      - ./data:/data
+
+      # Montar configuracion
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+
+    networks:
+      - redis_network
+
+networks:
+  redis_network:
+    driver: bridge
